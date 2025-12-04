@@ -115,7 +115,41 @@ FLASK_PORT=8080                # Flask server port
 5. **Credentials are captured** when they attempt to log in
 6. **Admin can view** captured credentials at `http://192.168.10.1:8080/admin`
 
-## Usage
+## 🎮 Management Mode (PI-ZERO)
+
+Since the Pi Zero often lacks a screen/keyboard, we set up a persistent Management AP called **"PI-ZERO"**.
+
+### Initial Setup
+Run this once to configure the management hotspot:
+```bash
+sudo ./setup_management_ap.sh
+```
+
+### How it Works
+1.  **Boot**: The Pi creates a Wi-Fi network `PI-ZERO` (Password: `raspberrypi`).
+2.  **Connect**: Join this network from your laptop.
+3.  **SSH**: `ssh pani@10.42.0.1`
+4.  **Start Attack**: Run `sudo ./4_run_rogue_ap.sh`.
+    *   This **stops** PI-ZERO and **starts** UNI-MAINZ.
+    *   You will lose SSH connection (this is normal).
+5.  **Stop Attack**: Press `Ctrl+C`.
+    *   UNI-MAINZ stops.
+    *   PI-ZERO restarts automatically.
+    *   You can reconnect via SSH.
+
+### Switching to Internet Mode
+If you need to update the Pi or install packages:
+```bash
+sudo ./switch_mode.sh client
+```
+This stops the AP and lets you connect to a normal Wi-Fi network using `sudo nmtui`.
+
+To go back to AP mode:
+```bash
+sudo ./switch_mode.sh ap
+```
+
+## 🚀 Usage
 
 ### Victim Page
 - Access `http://localhost:8080/` (or `http://192.168.10.1:8080/` on rogue AP)
@@ -131,24 +165,30 @@ FLASK_PORT=8080                # Flask server port
   - Credentials or authentication data
   - Type (password login, passkey success, passkey failed)
 
-## Files
+## 📂 Files
 
-### Core Application
-- `app.py`: Flask application handling server logic
-- `index.html`: Cloned and modified login page
+### Core Scripts
+*   `1_install_dependencies.sh`: Installs system packages and Python venv.
+*   `2_configure_services.sh`: Configures hostapd, dnsmasq, and firewall.
+*   `3_check_status.sh`: Verifies that everything is ready to run.
+*   `4_run_rogue_ap.sh`: Starts the attack (stops management AP, starts rogue AP).
 
-### Modular Setup Scripts (Recommended)
-- `1_install_dependencies.sh`: Installs all required packages and dependencies
-- `2_configure_services.sh`: Configures hostapd, dnsmasq, network, and iptables
-- `3_check_status.sh`: Verifies system configuration and readiness
-- `4_run_rogue_ap.sh`: Starts and runs the rogue access point
+### Management Scripts
+*   `setup_management_ap.sh`: Creates the "PI-ZERO" persistent Hotspot (Run once).
+*   `switch_mode.sh`: Toggles between "PI-ZERO" (AP) and Internet (Client) modes.
 
-### Legacy Scripts
-- `setup_rogue_ap.sh`: All-in-one setup script (systemd version)
-- `setup_rogue_ap_nosystemd.sh`: Alternative version without systemd
+### Web Application
+*   `app.py`: Flask application that serves the portal.
+*   `index.html`: The cloned login page.
+*   `css/` & `images/`: Local assets for the website.
+*   `download_resources.sh`: Utility to re-download website assets.
 
 ### Documentation
-- `README.md`: This file
+*   `TROUBLESHOOTING.md`: Detailed solutions for common errors.
+*   `CAPTIVE_PORTAL_POPUP.md`: Explanation of the auto-popup mechanism.
+*   `WEBSITE_FIX.md`: Details on how the offline website works.
+*   `QUICK_REFERENCE.md`: Cheat sheet for commands.
+*   `README.md`: This file
 
 ## Security Notice
 
