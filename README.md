@@ -185,9 +185,6 @@ sudo ./switch_mode.sh ap
 
 ### Documentation
 *   `TROUBLESHOOTING.md`: Detailed solutions for common errors.
-*   `CAPTIVE_PORTAL_POPUP.md`: Explanation of the auto-popup mechanism.
-*   `WEBSITE_FIX.md`: Details on how the offline website works.
-*   `QUICK_REFERENCE.md`: Cheat sheet for commands.
 *   `README.md`: This file
 
 ## Security Notice
