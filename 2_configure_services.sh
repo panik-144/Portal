@@ -139,6 +139,23 @@ configure_network() {
     print_status "Network interface configured with IP $GATEWAY_IP"
 }
 
+# Configure NetworkManager to ignore our interface
+configure_networkmanager() {
+    print_status "Configuring NetworkManager to ignore $INTERFACE..."
+    
+    mkdir -p /etc/NetworkManager/conf.d
+    
+    cat <<EOF > /etc/NetworkManager/conf.d/99-rogue-ap.conf
+[keyfile]
+unmanaged-devices=interface-name:$INTERFACE
+EOF
+    
+    # Reload NetworkManager to apply changes (if running)
+    if systemctl is-active NetworkManager &> /dev/null; then
+        systemctl reload NetworkManager 2>/dev/null || true
+    fi
+}
+
 # Enable IP forwarding and configure iptables
 configure_iptables() {
     print_status "Configuring iptables and IP forwarding..."
@@ -225,6 +242,7 @@ main() {
     echo -e "${NC}"
     
     configure_network
+    configure_networkmanager
     configure_hostapd
     configure_dnsmasq
     configure_iptables

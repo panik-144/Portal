@@ -44,16 +44,24 @@ SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 kill_conflicts() {
     print_status "Killing conflicting processes..."
     
-    # Kill wpa_supplicant - major cause of kernel panics if running alongside hostapd
+    # 1. Stop and MASK wpa_supplicant so it can't respawn
     systemctl stop wpa_supplicant 2>/dev/null || true
-    killall wpa_supplicant 2>/dev/null || true
+    systemctl mask wpa_supplicant 2>/dev/null || true
     
-    # If airmon-ng exists, use it to kill interfering processes
+    # 2. Kill the process with fire
+    killall -9 wpa_supplicant 2>/dev/null || true
+    sleep 1
+    killall -9 wpa_supplicant 2>/dev/null || true
+    
+    # 3. Stop NetworkManager from interfering
+    systemctl stop NetworkManager 2>/dev/null || true
+    
+    # 4. If airmon-ng exists, use it
     if command -v airmon-ng &> /dev/null; then
         airmon-ng check kill > /dev/null 2>&1
     fi
     
-    sleep 1
+    sleep 2
 }
 
 # Configure network interface
@@ -256,6 +264,9 @@ cleanup() {
     
     # Restore network
     ip addr flush dev $INTERFACE 2>/dev/null || true
+    
+    # Restore services
+    systemctl unmask wpa_supplicant 2>/dev/null || true
     systemctl start NetworkManager 2>/dev/null || true
     
     # Flush iptables

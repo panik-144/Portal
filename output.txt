@@ -1,0 +1,255 @@
+[1;33mStopping background services...[0m
+[1;33mUnblocking Wi-Fi radio...[0m
+[1;33mChecking interface status...[0m
+2: wlan0: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc fq_codel state DOWN mode DEFAULT group default qlen 1000
+    link/ether b8:27:eb:09:71:43 brd ff:ff:ff:ff:ff:ff
+[0;32mStarting hostapd in DEBUG mode...[0m
+Look for errors like 'Failed to initialize driver' or 'Hardware does not support'...
+[1;33mPress Ctrl+C to stop[0m
+
+random: getrandom() support available
+Configuration file: /etc/hostapd/hostapd.conf
+nl80211: Supported cipher 00-0f-ac:1
+nl80211: Supported cipher 00-0f-ac:5
+nl80211: Supported cipher 00-0f-ac:2
+nl80211: Supported cipher 00-0f-ac:4
+nl80211: Using driver-based off-channel TX
+nl80211: Supported vendor command: vendor_id=0x1018 subcmd=1
+nl80211: Use separate P2P group interface (driver advertised support)
+nl80211: Enable multi-channel concurrent (driver advertised support)
+nl80211: use P2P_DEVICE support
+nl80211: key_mgmt=0xd0f enc=0xf auth=0x7 flags=0x3800fac0 rrm_flags=0x0 probe_resp_offloads=0x0 max_stations=0 max_remain_on_chan=5000 max_scan_ssids=10
+nl80211: interface wlan0 in phy phy0
+nl80211: Set mode ifindex 2 iftype 3 (AP)
+nl80211: Setup AP(wlan0) - device_ap_sme=1 use_monitor=0
+nl80211: Subscribe to mgmt frames with AP handle 0x10a7418 (device SME)
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x10a7418 match=04 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x10a7418 match=0501 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x10a7418 match=0503 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x10a7418 match=0504 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x10a7418 match=06 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x10a7418 match=08 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x10a7418 match=09 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x10a7418 match=0a multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x10a7418 match=11 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x10a7418 match=12 multicast=0
+nl80211: Register frame type=0xd0 (WLAN_FC_STYPE_ACTION) nl_handle=0x10a7418 match=7f multicast=0
+nl80211: Register frame type=0xb0 (WLAN_FC_STYPE_AUTH) nl_handle=0x10a7418 match= multicast=0
+nl80211: Enable Probe Request reporting nl_preq=0x10a6ee8
+nl80211: Register frame type=0x40 (WLAN_FC_STYPE_PROBE_REQ) nl_handle=0x10a6ee8 match= multicast=0
+rfkill: initial event: idx=1 type=1 op=0 soft=0 hard=0
+nl80211: Add own interface ifindex 2 (ifidx_reason -1)
+nl80211: if_indices[16]: 2(-1)
+phy: phy0
+BSS count 1, BSSID mask 00:00:00:00:00:00 (0 bits)
+nl80211: Regulatory information - country=DE (DFS-ETSI)
+nl80211: 2400-2483 @ 40 MHz 20 mBm
+nl80211: 5150-5250 @ 80 MHz 23 mBm (no outdoor)
+nl80211: 5250-5350 @ 80 MHz 20 mBm (no outdoor) (DFS)
+nl80211: 5470-5725 @ 160 MHz 26 mBm (DFS)
+nl80211: 5725-5875 @ 80 MHz 13 mBm
+nl80211: 5945-6425 @ 320 MHz 23 mBm (no outdoor)
+nl80211: 57000-66000 @ 2160 MHz 40 mBm
+nl80211: Added 802.11b mode based on 802.11g information
+nl80211: Mode IEEE 802.11g: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467 2472 2484[DISABLED]
+nl80211: Mode IEEE 802.11b: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467 2472 2484[DISABLED]
+Completing interface initialization
+Mode: IEEE 802.11g  Channel: 1  Frequency: 2412 MHz
+DFS 0 channels required radar detection
+nl80211: Set freq 2412 (ht_enabled=0, vht_enabled=0, he_enabled=0, bandwidth=20 MHz, cf1=2412 MHz, cf2=0 MHz)
+  * freq=2412
+  * he_enabled=0
+  * vht_enabled=0
+  * ht_enabled=0
+  * channel_type=0
+RATE[0] rate=10 flags=0x1
+RATE[1] rate=20 flags=0x1
+RATE[2] rate=55 flags=0x1
+RATE[3] rate=110 flags=0x1
+RATE[4] rate=60 flags=0x0
+RATE[5] rate=90 flags=0x0
+RATE[6] rate=120 flags=0x0
+RATE[7] rate=180 flags=0x0
+RATE[8] rate=240 flags=0x0
+RATE[9] rate=360 flags=0x0
+RATE[10] rate=480 flags=0x0
+RATE[11] rate=540 flags=0x0
+hostapd_setup_bss(hapd=0x10a0ba0 (wlan0), first=1)
+nl80211: flush -> DEL_STATION wlan0 (all)
+nl80211: Station flush failed: ret=-14 (Bad address)
+Using interface wlan0 with hwaddr b8:27:eb:09:71:43 and ssid "UNI-MAINZ"
+nl80211: Set beacon (beacon_set=0)
+nl80211: Beacon head - hexdump(len=60): 80 00 00 00 ff ff ff ff ff ff b8 27 eb 09 71 43 b8 27 eb 09 71 43 00 00 00 00 00 00 00 00 00 00 64 00 01 04 00 09 55 4e 49 2d 4d 41 49 4e 5a 01 08 82 84 8b 96 0c 12 18 24 03 01 01
+nl80211: Beacon tail - hexdump(len=15): 2a 01 04 32 04 30 48 60 6c 7f 04 00 00 00 02
+nl80211: ifindex=2
+nl80211: beacon_int=100
+nl80211: beacon_rate=0
+nl80211: rate_type=0
+nl80211: dtim_period=2
+nl80211: ssid=UNI-MAINZ
+  * beacon_int=100
+  * dtim_period=2
+nl80211: hidden SSID not in use
+nl80211: privacy=0
+nl80211: auth_algs=0x1
+nl80211: wpa_version=0x0
+nl80211: key_mgmt_suites=0x4
+nl80211: pairwise_ciphers=0x0
+nl80211: group_cipher=0x1
+nl80211: beacon_ies - hexdump(len=6): 7f 04 00 00 00 02
+nl80211: proberesp_ies - hexdump(len=6): 7f 04 00 00 00 02
+nl80211: assocresp_ies - hexdump(len=6): 7f 04 00 00 00 02
+wlan0: Deauthenticate all stations at BSS start
+nl80211: sta_remove -> DEL_STATION wlan0 ff:ff:ff:ff:ff:ff --> 0 (Success)
+nl80211: Set wlan0 operstate 0->1 (UP)
+netlink: Operstate: ifindex=2 linkmode=-1 (no change), operstate=6 (IF_OPER_UP)
+nl80211: TX queue param set: queue=0 aifs=1 cw_min=3 cw_max=7 burst_time=15 --> res=-95
+Failed to set TX queue parameters for queue 0.
+nl80211: TX queue param set: queue=1 aifs=1 cw_min=7 cw_max=15 burst_time=30 --> res=-95
+Failed to set TX queue parameters for queue 1.
+nl80211: TX queue param set: queue=2 aifs=3 cw_min=15 cw_max=63 burst_time=0 --> res=-95
+Failed to set TX queue parameters for queue 2.
+nl80211: TX queue param set: queue=3 aifs=7 cw_min=15 cw_max=1023 burst_time=0 --> res=-95
+Failed to set TX queue parameters for queue 3.
+wlan0: interface state UNINITIALIZED->ENABLED
+wlan0: AP-ENABLED 
+wlan0: Setup of interface done.
+ctrl_iface not configured!
+RTM_NEWLINK: ifi_index=2 ifname=wlan0 operstate=6 linkmode=0 ifi_family=0 ifi_flags=0x11043 ([UP][RUNNING][LOWER_UP])
+nl80211: Drv Event 15 (NL80211_CMD_START_AP) received for wlan0
+wlan0: nl80211: Ignored unknown event (cmd=15)
+VLAN: RTM_NEWLINK: ifi_index=2 ifname=wlan0 ifi_family=0 ifi_flags=0x11043 ([UP][RUNNING][LOWER_UP])
+VLAN: vlan_newlink(wlan0)
+nl80211: Drv Event 16 (NL80211_CMD_STOP_AP) received for wlan0
+wlan0: Event INTERFACE_UNAVAILABLE (28) received
+Interface wlan0 is unavailable -- stopped
+RTM_NEWLINK: ifi_index=2 ifname=wlan0 operstate=2 linkmode=0 ifi_family=0 ifi_flags=0x1002 ()
+nl80211: Interface down (wlan0/wlan0)
+wlan0: Event INTERFACE_DISABLED (26) received
+wlan0: INTERFACE-DISABLED 
+VLAN: RTM_NEWLINK: ifi_index=2 ifname=wlan0 ifi_family=0 ifi_flags=0x1002 ()
+VLAN: vlan_newlink(wlan0)
+nl80211: Drv Event 36 (NL80211_CMD_REG_CHANGE) received for wlan0
+nl80211: Regulatory domain change
+ * initiator=0
+ * type=1
+wlan0: Event CHANNEL_LIST_CHANGED (27) received
+nl80211: Drv Event 36 (NL80211_CMD_REG_CHANGE) received for wlan0
+nl80211: Regulatory domain change
+ * initiator=1
+ * type=0
+ * alpha2=DE
+wlan0: Event CHANNEL_LIST_CHANGED (27) received
+RTM_NEWLINK: ifi_index=2 ifname=wlan0 operstate=2 linkmode=0 ifi_family=0 ifi_flags=0x1003 ([UP])
+nl80211: Interface up (wlan0/wlan0)
+wlan0: Event INTERFACE_ENABLED (25) received
+wlan0: INTERFACE-ENABLED 
+nl80211: Set beacon (beacon_set=0)
+nl80211: Beacon head - hexdump(len=60): 80 00 00 00 ff ff ff ff ff ff b8 27 eb 09 71 43 b8 27 eb 09 71 43 00 00 00 00 00 00 00 00 00 00 64 00 01 04 00 09 55 4e 49 2d 4d 41 49 4e 5a 01 08 82 84 8b 96 0c 12 18 24 03 01 01
+nl80211: Beacon tail - hexdump(len=15): 2a 01 04 32 04 30 48 60 6c 7f 04 00 00 00 02
+nl80211: ifindex=2
+nl80211: beacon_int=100
+nl80211: beacon_rate=0
+nl80211: rate_type=0
+nl80211: dtim_period=2
+nl80211: ssid=UNI-MAINZ
+  * beacon_int=100
+  * dtim_period=2
+nl80211: hidden SSID not in use
+nl80211: privacy=0
+nl80211: auth_algs=0x1
+nl80211: wpa_version=0x0
+nl80211: key_mgmt_suites=0x4
+nl80211: pairwise_ciphers=0x0
+nl80211: group_cipher=0x1
+nl80211: beacon_ies - hexdump(len=6): 7f 04 00 00 00 02
+nl80211: proberesp_ies - hexdump(len=6): 7f 04 00 00 00 02
+nl80211: assocresp_ies - hexdump(len=6): 7f 04 00 00 00 02
+nl80211: Beacon set failed: -95 (Operation not supported)
+Failed to set beacon parameters
+VLAN: RTM_NEWLINK: ifi_index=2 ifname=wlan0 ifi_family=0 ifi_flags=0x1003 ([UP])
+VLAN: vlan_newlink(wlan0)
+VLAN: RTM_NEWLINK: ifi_index=2 ifname=wlan0 ifi_family=0 ifi_flags=0x1003 ([UP])
+VLAN: vlan_newlink(wlan0)
+RTM_NEWLINK: ifi_index=2 ifname=wlan0 operstate=2 linkmode=1 ifi_family=0 ifi_flags=0x1003 ([UP])
+nl80211: Drv Event 33 (NL80211_CMD_TRIGGER_SCAN) received for wlan0
+wlan0: nl80211: Scan trigger
+wlan0: Event SCAN_STARTED (47) received
+Unknown event 47
+nl80211: Drv Event 34 (NL80211_CMD_NEW_SCAN_RESULTS) received for wlan0
+wlan0: nl80211: New scan results available
+nl80211: Scan probed for SSID ''
+nl80211: Scan included frequencies: 2412 2417 2422 2427 2432 2437 2442 2447 2452 2457 2462 2467 2472
+wlan0: Event SCAN_RESULTS (3) received
+RTM_NEWLINK: ifi_index=2 ifname=wlan0 wext ifi_family=0 ifi_flags=0x1003 ([UP])
+VLAN: RTM_NEWLINK: ifi_index=2 ifname=wlan0 ifi_family=0 ifi_flags=0x1003 ([UP])
+VLAN: vlan_newlink(wlan0)
+wlan0: Event EAPOL_RX (23) received
+RTM_NEWLINK: ifi_index=2 ifname=wlan0 operstate=5 linkmode=1 ifi_family=0 ifi_flags=0x11003 ([UP][LOWER_UP])
+nl80211: Set IF_OPER_UP again based on ifi_flags and expected operstate
+netlink: Operstate: ifindex=2 linkmode=-1 (no change), operstate=6 (IF_OPER_UP)
+RTM_NEWLINK: ifi_index=2 ifname=wlan0 operstate=6 linkmode=1 ifi_family=0 ifi_flags=0x11043 ([UP][RUNNING][LOWER_UP])
+VLAN: RTM_NEWLINK: ifi_index=2 ifname=wlan0 ifi_family=0 ifi_flags=0x11003 ([UP][LOWER_UP])
+VLAN: vlan_newlink(wlan0)
+VLAN: RTM_NEWLINK: ifi_index=2 ifname=wlan0 ifi_family=0 ifi_flags=0x11043 ([UP][RUNNING][LOWER_UP])
+VLAN: vlan_newlink(wlan0)
+nl80211: Drv Event 46 (NL80211_CMD_CONNECT) received for wlan0
+nl80211: Connect event (status=0 ignore_next_local_disconnect=0)
+nl80211: Associated on 2437 MHz
+nl80211: Associated with 5a:36:6d:3d:fb:12
+nl80211: Operating frequency for the associated BSS from scan results: 2437 MHz
+nl80211: Associated on 2437 MHz
+nl80211: Associated with 5a:36:6d:3d:fb:12
+nl80211: Set drv->ssid based on scan res info to 'Paul'
+wlan0: Event ASSOC (0) received
+hostapd_notif_assoc: Skip event with no address
+RTM_NEWLINK: ifi_index=2 ifname=wlan0 wext ifi_family=0 ifi_flags=0x11043 ([UP][RUNNING][LOWER_UP])
+RTM_NEWLINK: ifi_index=2 ifname=wlan0 wext ifi_family=0 ifi_flags=0x11043 ([UP][RUNNING][LOWER_UP])
+RTM_NEWLINK: ifi_index=2 ifname=wlan0 wext ifi_family=0 ifi_flags=0x11043 ([UP][RUNNING][LOWER_UP])
+nl80211: Drv Event 36 (NL80211_CMD_REG_CHANGE) received for wlan0
+nl80211: Regulatory domain change
+ * initiator=3
+ * type=0
+ * alpha2=DE
+wlan0: Event CHANNEL_LIST_CHANGED (27) received
+VLAN: RTM_NEWLINK: ifi_index=2 ifname=wlan0 ifi_family=0 ifi_flags=0x11043 ([UP][RUNNING][LOWER_UP])
+VLAN: vlan_newlink(wlan0)
+VLAN: RTM_NEWLINK: ifi_index=2 ifname=wlan0 ifi_family=0 ifi_flags=0x11043 ([UP][RUNNING][LOWER_UP])
+VLAN: vlan_newlink(wlan0)
+VLAN: RTM_NEWLINK: ifi_index=2 ifname=wlan0 ifi_family=0 ifi_flags=0x11043 ([UP][RUNNING][LOWER_UP])
+VLAN: vlan_newlink(wlan0)
+VLAN: RTM_NEWLINK: ifi_index=2 ifname=wlan0 ifi_family=0 ifi_flags=0x11003 ([UP][LOWER_UP])
+VLAN: vlan_newlink(wlan0)
+RTM_NEWLINK: ifi_index=2 ifname=wlan0 operstate=5 linkmode=1 ifi_family=0 ifi_flags=0x11003 ([UP][LOWER_UP])
+nl80211: Set IF_OPER_UP again based on ifi_flags and expected operstate
+netlink: Operstate: ifindex=2 linkmode=-1 (no change), operstate=6 (IF_OPER_UP)
+RTM_NEWLINK: ifi_index=2 ifname=wlan0 operstate=6 linkmode=1 ifi_family=0 ifi_flags=0x11043 ([UP][RUNNING][LOWER_UP])
+VLAN: RTM_NEWLINK: ifi_index=2 ifname=wlan0 ifi_family=0 ifi_flags=0x11043 ([UP][RUNNING][LOWER_UP])
+VLAN: vlan_newlink(wlan0)
+wlan0: Event EAPOL_RX (23) received
+Signal 2 received - terminating
+hostapd_interface_deinit_free(0x109fbf0)
+hostapd_interface_deinit_free: num_bss=1 conf->num_bss=1
+hostapd_interface_deinit(0x109fbf0)
+wlan0: interface state ENABLED->DISABLED
+hostapd_bss_deinit: deinit bss wlan0
+wlan0: Deauthenticate all stations
+nl80211: sta_remove -> DEL_STATION wlan0 ff:ff:ff:ff:ff:ff --> -22 (Invalid argument)
+wlan0: AP-DISABLED 
+hostapd_cleanup(hapd=0x10a0ba0 (wlan0))
+wlan0: CTRL-EVENT-TERMINATING 
+hostapd_free_hapd_data(wlan0)
+hostapd_interface_deinit_free: driver=0x1a03a0 drv_priv=0x10a6e30 -> hapd_deinit
+nl80211: deinit ifname=wlan0 disabled_11b_rates=0
+nl80211: Disable Probe Request reporting nl_preq=0x8982e661
+nl80211: Remove monitor interface: refcount=0
+nl80211: Remove beacon (ifindex=2)
+netlink: Operstate: ifindex=2 linkmode=0 (kernel-control), operstate=6 (IF_OPER_UP)
+nl80211: Set mode ifindex 2 iftype 2 (STATION)
+nl80211: Teardown AP(wlan0) - device_ap_sme=1 use_monitor=0
+nl80211: Unsubscribe mgmt frames handle 0x8982fc91 (AP teardown (dev SME))
+hostapd_interface_free(0x109fbf0)
+hostapd_interface_free: free hapd 0x10a0ba0
+hostapd_cleanup_iface(0x109fbf0)
+hostapd_cleanup_iface_partial(0x109fbf0)
+hostapd_cleanup_iface: free iface=0x109fbf0
