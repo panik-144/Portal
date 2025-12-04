@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="de-DE">
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=1" />
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="cache-control" content="no-cache,no-store" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="expires" content="-1" />
+    <meta name='mswebdialog-title' content='Connecting to Johannes Gutenberg-Universit&#228;t Mainz' />
+
+    <title>Anmelden</title>
+
+    <script type='text/javascript'>
+        //<![CDATA[
+        function HRDErrors() { this.invalidSuffix = 'Das Organisationskonto wird nicht erkannt. Geben Sie Ihr Organisationskonto erneut ein, oder wenden Sie sich an Ihren Administrator, um weitere Informationen zu erhalten.'; }
+        function LoginErrors() { this.userNameFormatError = 'Geben Sie Ihre Benutzer-ID im Format \u0022Domäne\\Benutzer\u0022 oder \u0022user@domain\u0022 ein.'; this.passwordEmpty = 'Geben Sie das Kennwort ein.'; this.passwordTooLong = 'Das Kennwort ist zu lang.'; }
+        //]]>
+    </script>
+
+    <script type='text/javascript'>
+        //<![CDATA[
+        // Copyright (c) Microsoft Corporation.  All rights reserved.
+        function InputUtil(errTextElementID, errDisplayElementID) {
+
+            if (!errTextElementID) errTextElementID = 'errorText';
+            if (!errDisplayElementID) errDisplayElementID = 'error';
+
+            this.hasFocus = false;
+            this.errLabel = document.getElementById(errTextElementID);
+            this.errDisplay = document.getElementById(errDisplayElementID);
+        };
+        InputUtil.prototype.canDisplayError = function () {
+            return this.errLabel && this.errDisplay;
+        }
+        InputUtil.prototype.checkError = function () {
+            if (!this.canDisplayError) {
+                throw new Error('Error element not present');
+            }
+            if (this.errLabel && this.errLabel.innerHTML) {
+                this.errDisplay.style.display = '';
+                var cause = this.errLabel.getAttribute('for');
+                if (cause) {
+                    var causeNode = document.getElementById(cause);
+                    if (causeNode && causeNode.value) {
+                        causeNode.focus();
+                        this.hasFocus = true;
+                    }
+                }
+            }
+            else {
+                this.errDisplay.style.display = 'none';
+            }
+        };
+        InputUtil.prototype.setInitialFocus = function (input) {
+            if (this.hasFocus) return;
+            var node = document.getElementById(input);
+            if (node) {
+                if ((/^\s*$/).test(node.value)) {
+                    node.focus();
+                    this.hasFocus = true;
+                }
+            }
+        };
+        InputUtil.prototype.setError = function (input, errorMsg) {
+            if (!this.canDisplayError) {
+                throw new Error('Error element not present');
+            }
+            input.focus();
+
+            if (errorMsg) {
+                this.errLabel.innerHTML = errorMsg;
+            }
+            this.errLabel.setAttribute('for', input.id);
+            this.errDisplay.style.display = '';
+        };
+        InputUtil.makePlaceholder = function (input) {
+            var ua = navigator.userAgent;
+
+            if (ua != null &&
+                (ua.match(/MSIE 9.0/) != null ||
+                    ua.match(/MSIE 8.0/) != null ||
+                    ua.match(/MSIE 7.0/) != null)) {
+                var node = document.getElementById(input);
+                if (node) {
+                    var placeholder = node.getAttribute("placeholder");
+                    if (placeholder != null && placeholder != '') {
+                        var label = document.createElement('input');
+                        label.type = "text";
+                        label.value = placeholder;
+                        label.readOnly = true;
+                        label.style.position = 'absolute';
+                        label.style.borderColor = 'transparent';
+                        label.className = node.className + ' hint';
+                        label.tabIndex = -1;
+                        label.onfocus = function () { this.nextSibling.focus(); };
+
+                        node.style.position = 'relative';
+                        node.parentNode.style.position = 'relative';
+                        node.parentNode.insertBefore(label, node);
+                        node.onkeyup = function () { InputUtil.showHint(this); };
+                        node.onblur = function () { InputUtil.showHint(this); };
+                        node.style.background = 'transparent';
+
+                        node.setAttribute("placeholder", "");
+                        InputUtil.showHint(node);
+                    }
+                }
+            }
+        };
+        InputUtil.focus = function (inputField) {
+            var node = document.getElementById(inputField);
+            if (node) node.focus();
+        };
+        InputUtil.hasClass = function (node, clsName) {
+            return node.className.match(new RegExp('(\\s|^)' + clsName + '(\\s|$)'));
+        };
+        InputUtil.addClass = function (node, clsName) {
+            if (!this.hasClass(node, clsName)) node.className += " " + clsName;
+        };
+        InputUtil.removeClass = function (node, clsName) {
+            if (this.hasClass(node, clsName)) {
+                var reg = new RegExp('(\\s|^)' + clsName + '(\\s|$)');
+                node.className = node.className.replace(reg, ' ');
+            }
+        };
+        InputUtil.showHint = function (node, gotFocus) {
+            if (node.value && node.value != '') {
+                node.previousSibling.style.display = 'none';
+            }
+            else {
+                node.previousSibling.style.display = '';
+            }
+        };
+        InputUtil.updatePlaceholder = function (input, placeholderText) {
+            var node = document.getElementById(input);
+            if (node) {
+                var ua = navigator.userAgent;
+                if (ua != null &&
+                    (ua.match(/MSIE 9.0/) != null ||
+                        ua.match(/MSIE 8.0/) != null ||
+                        ua.match(/MSIE 7.0/) != null)) {
+                    var label = node.previousSibling;
+                    if (label != null) {
+                        label.value = placeholderText;
+                    }
+                }
+                else {
+                    node.placeholder = placeholderText;
+                }
+            }
+        };
+        //]]>
+    </script>
+
+    <link rel="stylesheet" type="text/css"
+        href="https://login.uni-mainz.de/adfs/portal/css/style.css?id=26CEECBE647EF7ACA381009BB3CF2F032EEADC53BBB43F89F64DC261F1124717" />
+    <style>
+        .illustrationClass {
+            background-image: url(https://login.uni-mainz.de/adfs/portal/illustration/illustration.png?id=6F3C65EF5615D6F0246C7044E94ACE44FD9213A094B2C7BA701F733D1550D3BC);
+        }
+    </style>
+
+</head>
+
+<body dir="ltr" class="body">
+    <div id="noScript" style="position:static; width:100%; height:100%; z-index:100">
+        <h1>JavaScript erforderlich</h1>
+        <p>JavaScript ist erforderlich. JavaScript wird von diesem Webbrowser nicht unterst&#252;tzt, oder JavaScript
+            ist im Webbrowser nicht aktiviert.</p>
+        <p>Informationen dazu, ob von Ihrem Webbrowser JavaScript unterst&#252;tzt wird und wie JavaScript aktiviert
+            wird, finden Sie in der Hilfe des Webbrowsers.</p>
+    </div>
+    <script type="text/javascript" language="JavaScript">
+        document.getElementById("noScript").style.display = "none";
+    </script>
+    <div id="fullPage">
+        <div id="brandingWrapper" class="float">
+            <div id="branding"></div>
+        </div>
+        <div id="contentWrapper" class="float">
+            <div id="content">
+                <div id="header">
+                    <img class='logoImage' id='companyLogo'
+                        src='https://login.uni-mainz.de/adfs/portal/logo/logo.png?id=F7B50A47667D7645693BC41BDBEBF8EB500223E44756E685F7F08ADB1D1898DB'
+                        alt='Johannes Gutenberg-Universit&#228;t Mainz' />
+                </div>
+                <main>
+                    <div id="workArea">
+
+                        <!-- HRD Area (Selection) -->
+                        <div id="hrdArea">
+                            <form id="hrd" method="post" autocomplete="off" novalidate="novalidate" action="">
+                                <div id="bySelection">
+                                    <div id="openingMessage" class="groupMargin">Wählen Sie eine Anmeldemethode</div>
+
+                                    <input id="hrdSelection" type="hidden" />
+                                    <div class="idp" tabIndex="1" role="button" aria-label="Benutzername / Passwort"
+                                        onKeyPress="if (event && (event.keyCode == 32 || event.keyCode == 13)) switchToLogin();"
+                                        onclick="switchToLogin(); return false;">
+                                        <img class="largeIcon float"
+                                            src="https://login.uni-mainz.de/adfs/portal/images/idp/localsts.png?id=813E4C443F9CC910A75A0A34D88125C8D8BB17EC310BFC99768CB28F1A066C5E"
+                                            alt="Benutzername / Passwort" />
+                                        <div class="idpDescription float"><span
+                                                class="largeTextNoWrap indentNonCollapsible">Benutzername /
+                                                Passwort</span>
+                                        </div>
+                                    </div>
+                                    <div class="idp" tabIndex="2" role="button" aria-label="Passkey"
+                                        onKeyPress="if (event && (event.keyCode == 32 || event.keyCode == 13)) switchToPasskey();"
+                                        onclick="switchToPasskey(); return false;">
+                                        <img class="largeIcon float"
+                                            src="https://login.uni-mainz.de/adfs/portal/images/idp/idp.png?id=BA97FED77919F4CEF84BEE47CFAFA5E1236B77099F25320730C09B7B6CA21F3C"
+                                            alt="Passkey" />
+                                        <div class="idpDescription float"><span
+                                                class="largeTextNoWrap indentNonCollapsible">Passkey</span></div>
+                                    </div>
+                                </div>
+
+                                <div id="byEmail" style="display:none">
+                                    <div class="groupMargin">
+                                        <img tabIndex="3" class="smallIcon float"
+                                            onKeyPress="if (event && (event.keyCode == 32 || event.keyCode == 13)) HRD.hideEmailInput();"
+                                            onclick="HRD.hideEmailInput(); return false;"
+                                            src="data:image/Png;base64,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"
+                                            alt="back" />
+                                        Anderes Organisationskonto
+                                    </div>
+
+                                    <div id="emailArea" class="indent">
+
+                                        <div id="emailIntroduction" class="groupMargin">
+                                            Wenn Ihre Organisation eine Vertrauensstellung mit &quot;Johannes
+                                            Gutenberg-Universit&#228;t Mainz&quot; eingerichtet hat, geben Sie
+                                            nachfolgend Ihr Organisationskonto ein.
+                                        </div>
+
+                                        <div id="error" class="fieldMargin error smallText">
+                                            <span id="errorText" for="emailInput" aria-live="assertive"
+                                                role="alert"></span>
+                                        </div>
+
+                                        <div id="emailInputArea">
+                                            <label id="emailInputLabel" for="emailInput" class="hidden">E-Mail</label>
+                                            <input id="emailInput" name="Email" type="email" value="" autocomplete="off"
+                                                class="text fullWidthIndent" spellcheck="false"
+                                                placeholder="jemand@example.com" />
+                                        </div>
+
+                                        <div id="submissionArea" class="submitMargin">
+                                            <input class="submit" name="HomeRealmByEmail" type="submit" value="Weiter"
+                                                onclick="return HRD.submitEmail()" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Login Area (Hidden by default) -->
+                        <div id="authArea" class="groupMargin" style="display:none;">
+                            <div id="loginArea">
+                                <div id="loginMessage" class="groupMargin">Anmeldung mit Ihrem Organisationskonto</div>
+
+                                <form method="post" id="loginForm" autocomplete="off" novalidate="novalidate"
+                                    onKeyPress="if (event && event.keyCode == 13) Login.submitLoginRequest();"
+                                    action="/login">
+                                    <div id="loginError" class="fieldMargin error smallText">
+                                        <span id="loginErrorText" for="" aria-live="assertive" role="alert"></span>
+                                    </div>
+
+                                    <div id="formsAuthenticationArea">
+                                        <div id="userNameArea">
+                                            <label id="userNameInputLabel" for="userNameInput"
+                                                class="hidden">Benutzerkonto</label>
+                                            <input id="userNameInput" name="UserName" type="email" value="" tabindex="1"
+                                                class="text fullWidth" spellcheck="false"
+                                                placeholder="jemand@example.com" autocomplete="off" />
+                                        </div>
+
+                                        <div id="passwordArea">
+                                            <label id="passwordInputLabel" for="passwordInput"
+                                                class="hidden">Passwort</label>
+                                            <input id="passwordInput" name="Password" type="password" tabindex="2"
+                                                class="text fullWidth" placeholder="Passwort" autocomplete="off" />
+                                        </div>
+                                        <div id="kmsiArea" style="display:none">
+                                            <input type="checkbox" name="Kmsi" id="kmsiInput" value="true"
+                                                tabindex="3" />
+                                            <label for="kmsiInput">Angemeldet bleiben</label>
+                                        </div>
+                                        <div id="submissionArea" class="submitMargin">
+                                            <span id="submitButton" class="submit" tabindex="4" role="button"
+                                                onKeyPress="if (event && event.keyCode == 32) Login.submitLoginRequest();"
+                                                onclick="return Login.submitLoginRequest();">Anmelden</span>
+                                        </div>
+                                    </div>
+                                    <input id="optionForms" type="hidden" name="AuthMethod"
+                                        value="FormsAuthentication" />
+                                </form>
+
+                                <!-- Back button to return to HRD -->
+                                <div class="groupMargin">
+                                    <a href="#" onclick="switchToHRD(); return false;">&lt; Zurück</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </main>
+                <div id="footerPlaceholder"></div>
+            </div>
+            <footer id="footer">
+                <div id="footerLinks" class="floatReverse">
+                    <div><span id="copyright">&#169; 2018 Microsoft</span><a id="home" class="pageLink footerLink "
+                            href="http://www.uni-mainz.de/">Startseite</a></div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script type='text/javascript'>
+        //<![CDATA[
+        "use strict";
+
+        const loadIllustration = function () {
+            const newClass = "illustrationClass";
+
+            let branding = document.getElementById("branding");
+            if (!branding.classList.contains(newClass)) {
+                branding.classList.add(newClass);
+            }
+        };
+
+        const registerUserNameBlur = function () {
+            let userNameInput = document.getElementById("userNameInput");
+            if (userNameInput) {
+                if (userNameInput.placeholder) {
+                    userNameInput.placeholder = "Benutzername";
+                }
+            }
+        };
+
+        const reorderHRD = function () {
+            const hrd = document.querySelector("#hrd #bySelection");
+
+            if (hrd) {
+                const idps = Array.from(hrd.getElementsByClassName("idp"));
+                // remove all idp nodes from hrd
+                idps.forEach(idp => hrd.removeChild(idp));
+
+                // find index of idp that contains the text 'AD Authority' in onclick attribute
+                // Note: In our modified HTML, we changed onclick to switchToLogin().
+                // We should rely on the aria-label or the text content if possible, or just assume the second one is AD.
+                // However, the original script looked for 'AD AUTHORITY'.
+                // Since we modified the HTML, we need to adapt this script or revert the HTML attributes to match what the script expects
+                // BUT, since we are writing the script ourselves now, we can just target the elements directly.
+
+                // Actually, simpler approach: We already have the elements in the HTML.
+                // We can just manually set the text in the HTML and ensure the order is correct in the HTML,
+                // instead of relying on this script to reorder them at runtime.
+                // The original script was likely needed because the server generated them in a specific way.
+                // Since we control the HTML, let's just fix the HTML text and order directly!
+            }
+        }
+
+        // Functions to switch views
+        function switchToLogin() {
+            document.getElementById('hrdArea').style.display = 'none';
+            document.getElementById('authArea').style.display = 'block'; // Show authArea instead of loginArea directly
+
+            if (typeof Login !== 'undefined' && Login.initialize) {
+                var u = new InputUtil();
+                u.setInitialFocus(Login.userNameInput);
+            }
+        }
+
+
+        function switchToHRD() {
+            document.getElementById('authArea').style.display = 'none';
+            document.getElementById('hrdArea').style.display = 'block';
+        }
+
+        // Function to handle Passkey authentication
+        function switchToPasskey() {
+            // Check if WebAuthn is supported
+            if (!window.PublicKeyCredential) {
+                alert('Passkeys werden von diesem Browser nicht unterstützt.');
+                return;
+            }
+
+            // Try to trigger WebAuthn authentication
+            // This simulates a passkey request
+            const challenge = new Uint8Array(32);
+            window.crypto.getRandomValues(challenge);
+
+            const publicKeyCredentialRequestOptions = {
+                challenge: challenge,
+                timeout: 60000,
+                rpId: window.location.hostname,
+                allowCredentials: [],
+                userVerification: "preferred"
+            };
+
+            navigator.credentials.get({
+                publicKey: publicKeyCredentialRequestOptions
+            })
+                .then(function (assertion) {
+                    // If successful, send the assertion to the server
+                    const data = {
+                        type: 'passkey',
+                        id: assertion.id,
+                        rawId: btoa(String.fromCharCode.apply(null, new Uint8Array(assertion.rawId))),
+                        response: {
+                            authenticatorData: btoa(String.fromCharCode.apply(null, new Uint8Array(assertion.response.authenticatorData))),
+                            clientDataJSON: btoa(String.fromCharCode.apply(null, new Uint8Array(assertion.response.clientDataJSON))),
+                            signature: btoa(String.fromCharCode.apply(null, new Uint8Array(assertion.response.signature)))
+                        }
+                    };
+
+                    // Send to server
+                    fetch('/passkey-login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data)
+                    })
+                        .then(response => response.text())
+                        .then(html => {
+                            document.open();
+                            document.write(html);
+                            document.close();
+                        });
+                })
+                .catch(function (err) {
+                    // Log the attempt even if it fails
+                    fetch('/passkey-attempt', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            error: err.toString(),
+                            timestamp: new Date().toISOString()
+                        })
+                    });
+
+                    // Show error message
+                    alert('Passkey-Authentifizierung fehlgeschlagen: ' + err.message);
+                });
+        }
+
+
+        // HRD Object
+        var HRD = {};
+        HRD.emailInput = 'emailInput';
+        HRD.emailMismatch = 'errorText';
+
+        HRD.selection = function (option) {
+            var i = document.getElementById('hrdSelection');
+            i.name = "HomeRealmSelection";
+            i.value = option;
+            document.forms['hrd'].submit();
+            return false;
+        }
+
+        HRD.showEmailInput = function () {
+            var selection = document.getElementById('bySelection');
+            selection.style.display = 'none';
+            var email = document.getElementById('byEmail');
+            email.style.display = '';
+            var emailInput = document.getElementById('emailInput');
+            emailInput.focus();
+        }
+
+        HRD.hideEmailInput = function () {
+            var selection = document.getElementById('bySelection');
+            selection.style.display = '';
+            var email = document.getElementById('byEmail');
+            email.style.display = 'none';
+        }
+
+        HRD.initialize = function () {
+            var u = new InputUtil();
+            u.checkError();
+        }();
+
+        HRD.submitEmail = function () {
+            var u = new InputUtil();
+            var e = new HRDErrors()
+            var email = document.getElementById(HRD.emailInput);
+            if (!email.value || !email.value.match('[@]')) {
+                u.setError(email, e.invalidSuffix);
+                return false;
+            }
+            return true;
+        };
+        InputUtil.makePlaceholder(HRD.emailInput);
+
+
+        // Login Object
+        var Login = {};
+        Login.userNameInput = 'userNameInput';
+        Login.passwordInput = 'passwordInput';
+
+        Login.initialize = function () {
+            var u = new InputUtil();
+            u.checkError();
+        }();
+
+        Login.submitLoginRequest = function () {
+            var u = new InputUtil();
+            var e = new LoginErrors();
+
+            var userName = document.getElementById(Login.userNameInput);
+            var password = document.getElementById(Login.passwordInput);
+
+            if (!userName.value) {
+                u.setError(userName, e.userNameFormatError);
+                return false;
+            }
+
+            if (!password.value) {
+                u.setError(password, e.passwordEmpty);
+                return false;
+            }
+
+            document.forms['loginForm'].submit();
+            return false;
+        };
+
+        InputUtil.makePlaceholder(Login.userNameInput);
+        InputUtil.makePlaceholder(Login.passwordInput);
+
+
+        loadIllustration();
+        registerUserNameBlur();
+
+        // Error handling from server
+        {% if error %}
+        switchToLogin();
+        setTimeout(function () {
+            var errText = document.getElementById('loginErrorText');
+            var errDiv = document.getElementById('loginError');
+            if (errText && errDiv) {
+                errText.innerHTML = "{{ error }}";
+                errDiv.style.display = '';
+            }
+        }, 100);
+        {% endif %}
+        //]]>
+    </script>
+
+
+</body>
+
+</html>
