@@ -56,6 +56,9 @@ kill_conflicts() {
     # 3. Stop NetworkManager from interfering
     systemctl stop NetworkManager 2>/dev/null || true
     
+    # 3b. Stop dhcpcd (common on Raspberry Pi)
+    systemctl stop dhcpcd 2>/dev/null || true
+    
     # 4. If airmon-ng exists, use it
     if command -v airmon-ng &> /dev/null; then
         airmon-ng check kill > /dev/null 2>&1
@@ -268,6 +271,7 @@ cleanup() {
     # Restore services
     systemctl unmask wpa_supplicant 2>/dev/null || true
     systemctl start NetworkManager 2>/dev/null || true
+    systemctl start dhcpcd 2>/dev/null || true
     
     # Flush iptables
     iptables -F 2>/dev/null || true
