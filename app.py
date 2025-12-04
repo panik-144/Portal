@@ -26,8 +26,6 @@ def index():
 @app.route('/canonical.html')
 @app.route('/success.txt')
 def captive_portal_check():
-    # Log the check
-    print(f"Captive portal check detected: {request.path}")
     # Return 302 redirect to trigger the popup
     return redirect(url_for('index'), code=302)
 

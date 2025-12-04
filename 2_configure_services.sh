@@ -45,18 +45,24 @@ configure_hostapd() {
     # Create directory if it doesn't exist
     mkdir -p /etc/hostapd
     
-    cat <<EOF > /etc/hostapd/hostapd.conf
-interface=$INTERFACE
+    interface=$INTERFACE
 driver=nl80211
 ssid=$SSID
 hw_mode=g
 channel=6
-wmm_enabled=0
+wmm_enabled=1
 macaddr_acl=0
 auth_algs=1
 ignore_broadcast_ssid=0
 wpa=0
+country_code=DE
 EOF
+    
+    # Disable power management for the interface to prevent driver crashes
+    if command -v iw &> /dev/null; then
+        iw dev $INTERFACE set power_save off 2>/dev/null || true
+        print_status "Wi-Fi power management disabled"
+    fi
     
     # Set the config file location (handle both systemd and init.d)
     if [ -f /etc/default/hostapd ]; then

@@ -205,6 +205,19 @@ sudo journalctl -u hostapd -n 50
 **Cause**: This is expected behavior. We are intercepting HTTPS traffic but don't have the real certificate for Google/Apple/etc.
 **Fix**: Users must proceed through the warning or use an HTTP site (like the auto-popup does) to trigger the login page.
 
+### System Crash / Kernel Panic
+**Problem**: Raspberry Pi freezes, console shows `[ 633.******] ... end trace`, script won't stop.
+
+**Cause**: Wi-Fi driver crash, often caused by:
+1.  Conflict with `wpa_supplicant`
+2.  Wi-Fi Power Management enabled
+3.  Incompatible `hostapd` settings (WMM)
+
+**Fix**:
+1.  **Update Scripts**: We have updated `2_configure_services.sh` and `4_run_rogue_ap.sh` to fix this.
+2.  **Re-run Configuration**: `sudo ./2_configure_services.sh`
+3.  **Use External Adapter**: If the internal Wi-Fi keeps crashing, try a supported USB Wi-Fi adapter (e.g., Atheros AR9271).
+
 ---
 
 ## Verification Checklist

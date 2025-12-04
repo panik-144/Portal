@@ -40,6 +40,22 @@ print_warning() {
 # Get the directory where this script is located
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+# Kill interfering processes
+kill_conflicts() {
+    print_status "Killing conflicting processes..."
+    
+    # Kill wpa_supplicant - major cause of kernel panics if running alongside hostapd
+    systemctl stop wpa_supplicant 2>/dev/null || true
+    killall wpa_supplicant 2>/dev/null || true
+    
+    # If airmon-ng exists, use it to kill interfering processes
+    if command -v airmon-ng &> /dev/null; then
+        airmon-ng check kill > /dev/null 2>&1
+    fi
+    
+    sleep 1
+}
+
 # Configure network interface
 configure_network() {
     print_status "Configuring network interface..."
@@ -50,6 +66,11 @@ configure_network() {
         print_status "Available interfaces:"
         ip link show | grep -E "^[0-9]+:" | awk '{print $2}' | sed 's/://'
         return 1
+    fi
+    
+    # Disable power save
+    if command -v iw &> /dev/null; then
+        iw dev $INTERFACE set power_save off 2>/dev/null || true
     fi
     
     # Bring down the interface
@@ -267,6 +288,8 @@ main() {
         print_error "Please run ./2_configure_services.sh first"
         exit 1
     fi
+    
+    kill_conflicts
     
     if ! configure_network; then
         print_error "Failed to configure network"
