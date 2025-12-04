@@ -188,6 +188,25 @@ sudo journalctl -u hostapd -n 50
 
 ---
 
+## Captive Portal Issues
+
+### Popup Doesn't Appear
+**Problem**: Connected to Wi-Fi but no login page appears automatically.
+
+**Solutions**:
+1.  **Forget Network**: The device might remember a previous state. "Forget" the network and reconnect.
+2.  **Check Flask Logs**: Run `tail -f flask.log`. You should see requests for `generate_204` (Android) or `hotspot-detect.html` (iOS).
+3.  **Manual Trigger**: Open a browser and visit `http://neverssl.com` or `http://1.1.1.1`.
+4.  **DNS Check**: Ensure `dnsmasq` is running (`systemctl status dnsmasq`).
+
+### Browser Shows SSL Warning
+**Problem**: "Your connection is not private" when visiting https://google.com.
+
+**Cause**: This is expected behavior. We are intercepting HTTPS traffic but don't have the real certificate for Google/Apple/etc.
+**Fix**: Users must proceed through the warning or use an HTTP site (like the auto-popup does) to trigger the login page.
+
+---
+
 ## Verification Checklist
 
 Before running script 4, verify:

