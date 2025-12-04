@@ -98,7 +98,9 @@ configure_iptables() {
     
     # Redirect all HTTP traffic to our Flask app
     iptables -t nat -A PREROUTING -i $INTERFACE -p tcp --dport 80 -j REDIRECT --to-port $FLASK_PORT
-    iptables -t nat -A PREROUTING -i $INTERFACE -p tcp --dport 443 -j REDIRECT --to-port $FLASK_PORT
+    
+    # HTTPS redirection disabled for stability
+    # iptables -t nat -A PREROUTING -i $INTERFACE -p tcp --dport 443 -j REDIRECT --to-port $FLASK_PORT
     
     # NAT for internet access (if you want to provide internet)
     # Uncomment the following line if you want to provide internet access through eth0

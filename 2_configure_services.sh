@@ -179,7 +179,10 @@ configure_iptables() {
     
     # Redirect all HTTP traffic to our Flask app
     iptables -t nat -A PREROUTING -i $INTERFACE -p tcp --dport 80 -j REDIRECT --to-port $FLASK_PORT
-    iptables -t nat -A PREROUTING -i $INTERFACE -p tcp --dport 443 -j REDIRECT --to-port $FLASK_PORT
+    
+    # HTTPS redirection causes SSL errors and connection instability
+    # We disable it to ensure the captive portal popup works reliably via HTTP
+    # iptables -t nat -A PREROUTING -i $INTERFACE -p tcp --dport 443 -j REDIRECT --to-port $FLASK_PORT
     
     # NAT for internet access (if you want to provide internet)
     # Uncomment the following line if you want to provide internet access through eth0
