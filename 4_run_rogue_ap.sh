@@ -54,6 +54,8 @@ kill_conflicts() {
     killall -9 wpa_supplicant 2>/dev/null || true
     
     # 3. Stop NetworkManager from interfering
+    # First, bring down our management AP if it's running
+    nmcli con down PI-ZERO 2>/dev/null || true
     systemctl stop NetworkManager 2>/dev/null || true
     
     # 3b. Stop dhcpcd (common on Raspberry Pi)
