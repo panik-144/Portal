@@ -19,7 +19,7 @@ if [ "$MODE" == "ap" ]; then
     ensure_managed
     echo "Switching to Management AP (PI-ZERO)..."
     nmcli con up PI-ZERO
-    echo "AP started. Connect to SSID 'PI-ZERO' (pass: raspberrypi)"
+    echo "AP started. Connect to SSID 'PI-ZERO' (OPEN)"
     
 elif [ "$MODE" == "client" ]; then
     ensure_managed

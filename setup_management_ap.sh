@@ -35,14 +35,12 @@ sleep 5
 # Delete existing connection if it exists
 nmcli con delete PI-ZERO 2>/dev/null
 
-# Create new Hotspot
-# SSID: PI-ZERO
-# Password: raspberrypi
-# IP: 10.42.0.1 (Default for NM Shared)
+# Create new Hotspot (OPEN - No Password)
+# This is more reliable on Pi Zero and prevents WPA2 driver issues
+# Security is provided by SSH password
 echo "Creating Hotspot connection..."
 nmcli con add type wifi ifname wlan0 con-name PI-ZERO autoconnect yes ssid PI-ZERO
 nmcli con modify PI-ZERO 802-11-wireless.mode ap 802-11-wireless.band bg ipv4.method shared
-nmcli con modify PI-ZERO wifi-sec.key-mgmt wpa-psk wifi-sec.psk "raspberrypi"
 
 # 6. Set priority
 nmcli con modify PI-ZERO connection.autoconnect-priority 100
@@ -53,5 +51,5 @@ nmcli con up PI-ZERO
 
 echo ""
 echo "Management AP 'PI-ZERO' configured!"
-echo "Password: raspberrypi"
+echo "Security: OPEN (No Wi-Fi Password)"
 echo "IP Address: 10.42.0.1"

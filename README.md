@@ -126,7 +126,7 @@ sudo ./setup_management_ap.sh
 ```
 
 ### How it Works
-1.  **Boot**: The Pi creates a Wi-Fi network `PI-ZERO` (Password: `raspberrypi`).
+1.  **Boot**: The Pi creates a Wi-Fi network `PI-ZERO` (OPEN / No Password).
 2.  **Connect**: Join this network from your laptop.
 3.  **SSH**: `ssh pani@10.42.0.1`
 4.  **Start Attack**: Run `sudo ./4_run_rogue_ap.sh`.
