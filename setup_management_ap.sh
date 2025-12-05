@@ -42,7 +42,11 @@ echo "Creating Hotspot connection..."
 nmcli con add type wifi ifname wlan0 con-name PI-ZERO autoconnect yes ssid PI-ZERO
 nmcli con modify PI-ZERO 802-11-wireless.mode ap 802-11-wireless.band bg ipv4.method shared
 
-# 6. Set priority
+# 6. Allow Control Panel Port (5000)
+# Ensure firewall doesn't block our web interface
+iptables -I INPUT -p tcp --dport 5000 -j ACCEPT 2>/dev/null || true
+
+# 7. Set priority
 nmcli con modify PI-ZERO connection.autoconnect-priority 100
 
 # 7. Force Start

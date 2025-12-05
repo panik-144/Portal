@@ -200,6 +200,9 @@ configure_iptables() {
     iptables -A INPUT -p tcp --dport 443 -j ACCEPT
     iptables -A INPUT -p tcp --dport $FLASK_PORT -j ACCEPT
     
+    # Allow Control Panel (Port 5000)
+    iptables -A INPUT -p tcp --dport 5000 -j ACCEPT
+    
     # Redirect all HTTP traffic to our Flask app
     iptables -t nat -A PREROUTING -i $INTERFACE -p tcp --dport 80 -j REDIRECT --to-port $FLASK_PORT
     
