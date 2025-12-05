@@ -21,15 +21,18 @@ def run_command(command):
 
 def get_status():
     """Determine current mode (AP, Client, Attack)"""
-    # Check if rogue AP script is running
-    rogue_running = subprocess.run("pgrep -f 'python3 app.py'", shell=True).returncode == 0
+    # Check if hostapd is running (specific to attack mode)
+    hostapd_running = subprocess.run("pgrep hostapd", shell=True).returncode == 0
     
-    # Check if PI-ZERO is active
+    # Check active NetworkManager connection
     nm_status = subprocess.run("nmcli -t -f NAME connection show --active", shell=True, capture_output=True, text=True).stdout
     
-    if rogue_running:
+    # Check which SSID is being broadcast (if any)
+    broadcast_ssid = subprocess.run("iw dev wlan0 info 2>/dev/null | grep ssid", shell=True, capture_output=True, text=True).stdout
+    
+    if hostapd_running or "UNI-MAINZ" in broadcast_ssid:
         return "ATTACK_MODE"
-    elif "PI-ZERO" in nm_status:
+    elif "PI-ZERO" in nm_status or "PI-ZERO" in broadcast_ssid:
         return "MANAGEMENT_MODE"
     elif nm_status.strip():
         return "CLIENT_MODE"
