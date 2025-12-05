@@ -69,6 +69,19 @@ kill_conflicts() {
     sleep 2
 }
 
+# Reload Wi-Fi Driver (Critical for Pi Zero stability)
+reload_driver() {
+    print_status "Reloading Wi-Fi driver..."
+    
+    # Remove and reload the Broadcom driver
+    modprobe -r brcmfmac 2>/dev/null || true
+    sleep 2
+    modprobe brcmfmac
+    sleep 3
+    
+    print_status "Driver reloaded"
+}
+
 # Configure network interface
 configure_network() {
     print_status "Configuring network interface..."
@@ -307,6 +320,7 @@ main() {
     fi
     
     kill_conflicts
+    reload_driver
     
     if ! configure_network; then
         print_error "Failed to configure network"
